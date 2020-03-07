@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6300ee</color>
+    <color name="colorPrimaryVariant">#3700B3</color>
+    <color name="colorPrimaryDark">#0900ba</color>
+    <color name="colorPrimaryLight">#9e47ff</color>
+    <color name="colorAccent">#ee008b</color>
+    <color name="colorTradic">#ee6300</color>
+    <color name="colorComplementary">#8bee00</color>
+    <color name="colorAnlogous">#0014ee</color>
+    <color name="colorAnlogousTwo">#da00ee</color>
+    <color name="onPrimary">#ffffff</color>
+
+    <color name="colorSecondary">#e91e63</color>
+    <color name="colorSecondaryVariant">#f50057</color>
+    <color name="colorSecondaryDark">#b0003a</color>
+    <color name="colorSecondaryLight">#ff6090</color>
+    <color name="colorSecondaryComplementary">#1ee9a5</color>
+    <color name="colorSecondaryTradic">#e9a51e</color>
+    <color name="colorSecondaryAccent">#62e91e</color>
+    <color name="colorSecondaryAnalogous">#e91ec7</color>
+    <color name="colorSecondaryAnalogugousTWo">#e9401e</color>
+    <color name="onSecondary">#000000</color>
+
+    <color name="colorPrimaryLightTrans">#AA9e47ff</color>
+
+    <color name="colorGreen">#00e676</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorRed">#e9401e</color>
+
+</resources>
