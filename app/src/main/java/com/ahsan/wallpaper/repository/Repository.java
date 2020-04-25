@@ -8,6 +8,10 @@ import com.ahsan.wallpaper.model.ImageInfoResponse;
 import com.ahsan.wallpaper.picture.model.FileStateModel;
 import com.ahsan.wallpaper.util.AppLogger;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import androidx.lifecycle.MutableLiveData;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -74,16 +78,19 @@ public class Repository {
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    FileStateModel fileStateModel = new FileStateModel(response.code());
                     if(response.isSuccessful()) {
                         boolean status =
                                 AppFileManager.getInstance().writeResponseBodyToDisk(response.body());
                         if(status){
-
+                            fileStateModel.setFile(AppFileManager.getInstance().getWallpaperFile());
+                            fileStateModelMutableLiveData.postValue(fileStateModel);
                         }
                         else{
-
+                            fileStateModelMutableLiveData.postValue(fileStateModel);
                         }
                     }
+                    fileStateModelMutableLiveData.postValue(fileStateModel);
                 }
 
                 @Override
@@ -94,6 +101,8 @@ public class Repository {
 
         });
     }
+
+
 
     private Retrofit getRetrofit() {
         return new Retrofit.Builder()

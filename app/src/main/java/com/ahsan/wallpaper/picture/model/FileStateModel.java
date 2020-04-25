@@ -4,9 +4,8 @@ import java.io.File;
 
 public class FileStateModel {
 
-    private static final int FILE_SAVED = 101;
-    private static final int FILE_NOT_SAVED = 440;
-    private static final int FILE_NOT_DOWNLOADED = 444;
+    public static int SUCCESSFULL = 200;
+    public static int UNAUTHORIZED = 401;
 
     private int code;
 

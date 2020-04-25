@@ -36,7 +36,7 @@ public class AppFileManager {
 
     public boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            // todo change the file location/name according to your needs
+
 
             InputStream inputStream = null;
             OutputStream outputStream = null;

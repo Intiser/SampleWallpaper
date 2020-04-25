@@ -1,15 +1,24 @@
 package com.ahsan.wallpaper.picture;
 
+import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
+import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ahsan.wallpaper.R;
 import com.ahsan.wallpaper.databinding.ActivityImageBinding;
 import com.ahsan.wallpaper.manager.AppDataManager;
+import com.ahsan.wallpaper.manager.AppWallpaperManager;
 import com.ahsan.wallpaper.model.HitsItem;
+import com.ahsan.wallpaper.picture.model.FileStateModel;
+import com.ahsan.wallpaper.picture.viewmodel.ImageViewModel;
 import com.bumptech.glide.Glide;
 
 public class ImageActivity extends AppCompatActivity {
@@ -20,13 +29,64 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_image);
+        initData();
         initView();
+        initViewModel();
+        handleClicks();
+    }
+
+    private ImageViewModel viewModel;
+
+    private void initViewModel() {
+        viewModel = ViewModelProviders.of(this).get(ImageViewModel.class);
+        binding.setViewmodel(viewModel);
+        viewModel.getFileStateModelMutableLiveData().observe(this, new Observer<FileStateModel>() {
+            @Override
+            public void onChanged(FileStateModel fileStateModel) {
+                if (fileStateModel.getCode() == FileStateModel.SUCCESSFULL) {
+                    if (fileStateModel.getFile() != null) {
+                        AppWallpaperManager.getInstance().setWallPaper(fileStateModel
+                                        .getFile(), ImageActivity.this,
+                                new AppWallpaperManager.Callbacks() {
+                                    @Override
+                                    public void onSuccesful() {
+                                        Handler mainHandler = new Handler(ImageActivity.
+                                                this.getMainLooper());
+
+                                        Runnable myRunnable = new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(ImageActivity.this,
+                                                        "Your wallpaper is set successfully",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        };
+                                        mainHandler.post(myRunnable);
+
+                                    }
+                                });
+                    }
+                }
+            }
+        });
+    }
+
+    private void initData() {
+        hitsItem = AppDataManager.getInstance().getSelectedItem();
+    }
+
+    private void handleClicks() {
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.downloadFile(hitsItem);
+            }
+        });
     }
 
     private HitsItem hitsItem;
 
     private void initView() {
-        hitsItem = AppDataManager.getInstance().getSelectedItem();
         Glide.with(this).load(hitsItem.getLargeImageURL()).into(binding.imageview);
     }
 
